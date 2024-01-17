@@ -16,6 +16,9 @@ Inception is a a System Administration related exercise. This project involves s
 -   A second volume that contains your WordPress website files.
 -   A docker-network that establishes the connection between your containers.
 
+> [!CAUTION]
+> The containers musn’t be started with a command running an infinite loop. Thus, this also applies to any command used as entrypoint, or used in entrypoint scripts. The following are a few prohibited hacky patches: `tail -f`, `bash`, `sleep infinity`, `while true`.
+
 ## ⭐ Additional Features
 
 -   Set up redis cache for your WordPress website in order to properly manage the cache.
