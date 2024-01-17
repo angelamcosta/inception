@@ -24,3 +24,12 @@ Inception is a a System Administration related exercise. This project involves s
 -   Set up Adminer.
 -   Set up a service of your choice that you think is useful. During the defense, you
 will have to justify your choice.
+
+## Glossary
+
+- [Why can't MYSQL access the aria control file?](https://www.linode.com/community/questions/17989/why-cant-mysql-access-the-aria-control-file)
+
+  ```
+  2024-01-16 17:16:26 0 [ERROR] mysqld: Can't lock aria control file '/var/lib/mysql/aria_log_control' for exclusive use, error: 11. Will retry for 30 seconds
+  2024-01-16 17:16:56 0 [ERROR] mysqld: Got error 'Could not get an exclusive lock; file is probably in use by another process' when trying to use aria control file '/var/lib/mysql/aria_log_control'
+  ```
