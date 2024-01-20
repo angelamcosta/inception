@@ -7,6 +7,8 @@ RUN apt-get update && \
     mkdir -p /var/lib/mysql && \
     mysql_install_db --user=mysql --ldata=/var/lib/mysql --force
 
+COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf.d/
+
 COPY ./tools/init-db.sh /
 RUN chmod +x init-db.sh
 
