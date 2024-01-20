@@ -24,3 +24,4 @@ Compose is a tool for defining and running multi-container Docker applications. 
 - Simplified deployment: deploy multi-container applications with a single command
 - Scalability: easily scalate services up or down to handle changes in demand
 - Easy configuration: the `docker-compose.yml` file is a simple and readable configuration file
+- Shared storage: volumes storage can be shared between the host and the containers
