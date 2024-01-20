@@ -11,7 +11,7 @@ chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 wp core download --allow-root
-mv wp-config-sample.php wp-config.php
+mv /wp-config.php /var/www/html/wp-config.php
 
 sed -i -e "s/database/$db_name/1" \
        -e "s/database_user/$db_user/1" \
