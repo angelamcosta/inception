@@ -1,8 +1,22 @@
 version: '3'
 
+# the volumes are not in the correct place yet as i'm testing on my pc instead of using a vm
+
 volumes:
-  mariadb_data:
+  wordpress:
+    name: wordpress
     driver: local
+    driver_opts:
+      device: /Users/anlima/wordpress
+      o: bind
+      type: none
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      device: /Users/anlima/mariadb
+      o: bind
+      type: none
 
 networks:
   inception:
@@ -17,6 +31,37 @@ services:
     env_file:
       - ./mariadb/tools/.env
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - inception
+    restart: unless-stopped
+    expose:
+      - "3306"
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception
+    ports:
+      - "443:443"
+    restart: on-failure
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    env_file:
+      - ./wordpress/tools/.env
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    restart: on-failure
+    expose:
+      - "9000"
