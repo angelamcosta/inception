@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 RUN mkdir -p /etc/nginx/ssl
 COPY ./conf/nginx.conf /
-RUN cat nginx.conf >> /etc/nginx/nginx.conf
+RUN cat nginx.conf >> /etc/nginx/sites-available/default
 
 RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=PT/L=Lisbon/O=42/OU=student/CN=anlima.42.pt/UID=anlima"
 RUN mkdir -p /var/run/nginx
