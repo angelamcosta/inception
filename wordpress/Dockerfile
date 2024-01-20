@@ -19,4 +19,4 @@ COPY ./conf/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
 
 RUN mkdir -p /run/php
 
-CMD ["auto-conf.sh"]
+CMD ["/auto-conf.sh"]
