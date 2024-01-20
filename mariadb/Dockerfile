@@ -8,5 +8,6 @@ RUN apt-get update && \
     mysql_install_db --user=mysql --ldata=/var/lib/mysql --force
 
 COPY ./tools/init-db.sh /
+RUN chmod +x init-db.sh
 
 CMD ["/init-db.sh"]
