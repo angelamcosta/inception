@@ -7,7 +7,7 @@ RUN apt-get update -y && \
 
 COPY ./tools/auto-conf.sh /
 RUN chmod +x auto-conf.sh
-COPY ./conf/php-fpm.conf /
+COPY ./conf/wp-config.php /
 
 RUN mkdir -p /run/php
 
