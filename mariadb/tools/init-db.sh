@@ -13,4 +13,4 @@ mysql -u root --password=$ROOT_PASSWORD < db1.sql
 # process needs to be killed (see the glossary in readme)
 kill $(cat /var/run/mysqld/mysqld.pid)
 
-mysqld --user=mysql --console
+mysqld_safe
