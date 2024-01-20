@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye-slim
 
 RUN apt-get update && \
     apt-get upgrade -y && \
