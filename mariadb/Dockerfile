@@ -1,15 +1,11 @@
-# mariadb dockerfile for testing
 FROM debian:bullseye-slim
 
-# -p create the parent directories (/var/lib) if they don't exist
-RUN apt-get update && \
-    apt-get install -y mariadb-server && \
-    mkdir -p /var/lib/mysql && \
-    mysql_install_db --user=mysql --ldata=/var/lib/mysql --force
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y mariadb-server
 
-COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+RUN mkdir -p /conf && chmod 755 /conf
+COPY /tools/init-db.sh /conf
 
-COPY ./tools/init-db.sh /
-RUN chmod +x init-db.sh
+EXPOSE 3306
 
-CMD ["/init-db.sh"]
+ENTRYPOINT ["/bin/bash", "/conf/init-db.sh"]

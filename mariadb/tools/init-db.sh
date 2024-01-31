@@ -1,16 +1,12 @@
 #!/bin/bash
 
-service mariadb start
+service mysql start
 
-echo "CREATE DATABASE IF NOT EXISTS $DB_NAME ;" > db1.sql
-echo "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD' ;" >> db1.sql
-echo "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' ;" >> db1.sql
-echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$ROOT_PASSWORD' ;" >> db1.sql
-echo "FLUSH PRIVILEGES ;" >> db1.sql
+mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
+mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';"
+mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
+mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
+mysql -e "FLUSH PRIVILEGES;"
+mysqladmin -u root -p$SQL_ROOT_PASSWORD shutdown
 
-mysql -u root --password=$ROOT_PASSWORD < db1.sql
-
-# process needs to be killed (see the glossary in readme)
-kill $(cat /var/run/mysqld/mysqld.pid)
-
-mysqld --user=mysql --console
+exec mysqld_safe
