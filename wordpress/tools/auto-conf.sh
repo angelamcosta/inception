@@ -1,35 +1,29 @@
 #!/bin/bash
 
-mkdir -p /var/www/html
+sleep 10
 
-cd /var/www/html
+mv /conf/index.php /var/www/wordpress/index.php
 
-rm -rf *
+if [ ! -e /var/www/wordpress/wp-config.php ]; then
+   wp config create --dbhost=$DB_HOST \
+                    --dbname=$DB_NAME \
+                    --dbuser=$DB_USER \
+                    --dbpass=$DB_PASSWORD \
+                    --path='/var/www/wordpress' \
+                    --allow-root
 
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
+    wp core install --title=$WORDPRESS_TITLE \
+                    --admin_user=$WORDPRESS_ADMIN_USER \
+                    --admin_password=$ROOT_PASSWORD \
+                    --admin_email=$WORDPRESS_ADMIN_EMAIL \
+                    --url=$WORDPRESS_URL \
+                    --allow-root
 
-wp core download --allow-root
-mv /wp-config.php /var/www/html/wp-config.php
+    wp user create $WORDPRESS_ADMIN_USER $WORDPRESS_ADMIN_EMAIL \
+                    --role=author --user_pass=$ROOT_PASSWORD \
+                    --path='/var/www/wordpress' >> /log.txt
+fi
 
-sed -i -e "s/database/$db_name/1" \
-       -e "s/database_user/$db_user/1" \
-       -e "s/passwod/$db_pwd/1" \
-       -e "s/localhost/mariadb/1" wp-config.php
-
-wp core install --url=$DOMAIN_NAME/ --title=$WP_TITLE --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
-
-wp user create $WP_USR $WP_EMAIL --role=author --user_pass=$WP_PWD --allow-root
-
-wp theme install altr --activate --allow-root
-
-wp plugin install redis-cache --activate --allow-root
-
-sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
-
-mkdir -p /run/php
-
-wp redis enable --allow-root
-
-/usr/sbin/php-fpm7.3 -F
+if [ ! -d /run/php ]; then
+    mkdir /run/php
+fi
