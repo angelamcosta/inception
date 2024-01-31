@@ -1,18 +1,17 @@
 FROM debian:bullseye-slim
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y nginx && \
-    apt-get install -y openssl -y
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y nginx openssl
 
-RUN mkdir -p /etc/nginx/ssl
-COPY ./conf/nginx.conf /
-RUN cat nginx.conf >> /etc/nginx/sites-available/default
-
-RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=PT/L=Lisbon/O=42/OU=student/CN=anlima.42.pt/UID=anlima"
+RUN mkdir -p /etc/nginx/ssl/certs
+RUN mkdir -p /etc/nginx/ssl/private
 RUN mkdir -p /var/run/nginx
 
-COPY ./tools/start.sh /
-RUN chmod +x start.sh
+RUN openssl req -newkey rsa:4096 -days 42 -nodes -x509 -out /etc/nginx/ssl/certs/anlima.crt -keyout /etc/nginx/ssl/private/anlima.key -subj "/C=PT/ST=Lisboa/L=Lisboa/O=42/OU=42Lisboa/CN=anlima.42.fr/UID=anlima"
 
-CMD ["/start.sh"]
+COPY conf/nginx.conf /etc/nginx/nginx.conf
+
+RUN chmod 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html
+
+CMD ["nginx", "-g", "daemon off;"]
