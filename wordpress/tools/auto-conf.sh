@@ -2,6 +2,8 @@
 
 sleep 10
 
+set -x
+
 mv /conf/index.php /var/www/wordpress/index.php
 
 if [ ! -e /var/www/wordpress/wp-config.php ]; then
@@ -14,16 +16,18 @@ if [ ! -e /var/www/wordpress/wp-config.php ]; then
 
     wp core install --title=$WORDPRESS_TITLE \
                     --admin_user=$WORDPRESS_ADMIN_USER \
-                    --admin_password=$ROOT_PASSWORD \
+                    --admin_password=$DB_PASSWORD \
                     --admin_email=$WORDPRESS_ADMIN_EMAIL \
                     --url=$WORDPRESS_URL \
                     --allow-root
 
     wp user create $WORDPRESS_ADMIN_USER $WORDPRESS_ADMIN_EMAIL \
-                    --role=author --user_pass=$ROOT_PASSWORD \
+                    --role=author --user_pass=$DB_PASSWORD \
                     --path='/var/www/wordpress' >> /log.txt
 fi
 
 if [ ! -d /run/php ]; then
     mkdir /run/php
 fi
+
+php-fpm7.3 -F
