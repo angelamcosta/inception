@@ -33,8 +33,10 @@ services:
     networks:
       - inception
     restart: unless-stopped
+    ports:
+      - '3306:3306'
     expose:
-      - "3306"
+      - '3306'
   nginx:
     container_name: nginx
     build:
@@ -44,6 +46,8 @@ services:
       - wordpress:/var/www/wordpress
     networks:
       - inception
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     restart: on-failure
