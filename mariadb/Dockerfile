@@ -1,15 +1,12 @@
 FROM debian:bullseye-slim
 
-RUN apt-get update && \
-    apt-get install -y mariadb-server && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install mariadb-server -y
 
-RUN chmod -R 755 /var/lib/mysql
-
-COPY /tools/50-server.cnf /etc/mysql/my.cnf
-COPY /tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY tools/init-db.sh /init-db.sh
+COPY tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 EXPOSE 3306
 
-CMD ["mariadbd"]
+ENTRYPOINT ["/init-db.sh"]

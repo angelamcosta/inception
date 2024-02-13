@@ -1,16 +1,30 @@
-#!/bin/bash
+#!bin/bash
 
-service mariadb start
+if [ ! -d /run/mysqld ]
+then
+	mkdir -p /run/mysqld
+	chown -R mysql:mysql /run/mysqld
+	chown -R mysql:mysql /var/lib/mysql
 
-echo "Creating database: ${DB_NAME}"
-mysql -e "CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;"
-echo "Creating user: ${DB_USER}"
-mysql -e "CREATE USER IF NOT EXISTS \`${DB_USER}\`@'localhost' IDENTIFIED BY '${DB_PASSWORD}';"
-echo "Granting privileges on ${DB_NAME} to ${DB_USER}"
-mysql -e "GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO \`${DB_USER}\`@'%' IDENTIFIED BY '${DB_PASSWORD}';"
-echo "Altering root user password"
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';"
-echo "Flushing privileges"
-mysql -e "FLUSH PRIVILEGES;"
+	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql 
 
-exec mysqld_safe
+cat << EOF > init.sql
+	USE mysql;
+	FLUSH PRIVILEGES;
+	ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_PASSWORD';
+	CREATE DATABASE IF NOT EXISTS $DB_NAME;
+	CREATE USER '$DB_USER'@'%';
+	SET PASSWORD FOR '$DB_USER'@'%' = PASSWORD('$DB_PASSWORD');
+	GRANT ALL PRIVILEGES ON wordpress.* TO '$DB_USER'@'%';
+	GRANT ALL ON wordpress.* to '$DB_USER'@'%';
+	FLUSH PRIVILEGES;
+EOF
+
+mysqld --user=mysql --bootstrap < init.sql
+
+fi
+
+echo "⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆ MariaDB started ⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆ପ(๑•ᴗ•๑)ଓ ♡"
+echo "ପ૮๑ᵔ ᵕ ᵔ๑ აଓ"
+
+exec mysqld --user=mysql --console
