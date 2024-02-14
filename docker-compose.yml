@@ -35,8 +35,6 @@ services:
     restart: unless-stopped
     ports:
       - '3306:3306'
-    expose:
-      - '3306'
   nginx:
     container_name: nginx
     build:
@@ -64,6 +62,6 @@ services:
       - inception
     depends_on:
       - mariadb
+    ports:
+      - '9000:9000'
     restart: on-failure
-    expose:
-      - "9000"
