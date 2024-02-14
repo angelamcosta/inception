@@ -1,10 +1,6 @@
 #!/bin/bash
 
-sleep 10
-
-set -x
-
-mv /conf/index.php /var/www/wordpress/index.php
+sleep 5
 
 if [ ! -e /var/www/wordpress/wp-config.php ]; then
    wp config create --dbhost=$DB_HOST \
@@ -23,11 +19,14 @@ if [ ! -e /var/www/wordpress/wp-config.php ]; then
 
     wp user create $WORDPRESS_ADMIN_USER $WORDPRESS_ADMIN_EMAIL \
                     --role=author --user_pass=$DB_PASSWORD \
-                    --path='/var/www/wordpress' >> /log.txt
+                    --path='/var/www/wordpress' >> /log.txt \
+                    --allow-root
+
+    wp theme install blogvi --activate
 fi
 
 if [ ! -d /run/php ]; then
     mkdir /run/php
 fi
 
-php-fpm7.3 -F
+/usr/sbin/php-fpm7.4 -F
