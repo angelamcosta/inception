@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bullseye
 
 WORKDIR /var/www/wordpress
 
