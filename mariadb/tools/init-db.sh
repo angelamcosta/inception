@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 if [ ! -d /run/mysqld ]
 then
@@ -19,6 +19,8 @@ cat << EOF > init.sql
 	GRANT ALL ON wordpress.* to '$DB_USER'@'%';
 	FLUSH PRIVILEGES;
 EOF
+
+sed -i 's/^[ \t]*//' init.sql
 
 mysqld --user=mysql --bootstrap < init.sql
 
