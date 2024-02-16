@@ -41,7 +41,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     volumes:
-      - wordpress:/var/www/wordpress
+      - wordpress:/var/www/html
     networks:
       - inception
     depends_on:
@@ -57,7 +57,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress:/var/www/wordpress
+      - wordpress:/var/www/html
     networks:
       - inception
     depends_on:
