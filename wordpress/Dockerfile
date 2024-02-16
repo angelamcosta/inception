@@ -5,11 +5,10 @@ WORKDIR /var/www/html
 RUN apt-get update -y && \
     apt-get upgrade -y
 
-RUN apt-get install -y wget php-fpm php-mysql mariadb-client dos2unix
+RUN apt-get install -y wget php-fpm php-mysql mariadb-client 
 
-COPY tools/auto-conf.sh /
-RUN dos2unix /auto-conf.sh && \
-    chmod +x /auto-conf.sh
+COPY tools/auto-conf.sh /auto-conf.sh
+RUN sed -i 's/\r//' /auto-conf.sh
 COPY tools/index.php /var/www/html/index.php
 COPY tools/php.conf /etc/php/7.4/fpm/pool.d/www.conf
 

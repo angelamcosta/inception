@@ -2,12 +2,12 @@
 
 sleep 5
 
-if [ ! -e /var/www/wordpress/wp-config.php ]; then
+if [ ! -e /var/www/html/wp-config.php ]; then
    wp config create --dbhost=$DB_HOST \
                     --dbname=$DB_NAME \
                     --dbuser=$DB_USER \
                     --dbpass=$DB_PASSWORD \
-                    --path='/var/www/wordpress' \
+                    --path='/var/www/html' \
                     --allow-root
 
     wp core install --title=$WORDPRESS_TITLE \
@@ -19,10 +19,8 @@ if [ ! -e /var/www/wordpress/wp-config.php ]; then
 
     wp user create $WORDPRESS_ADMIN_USER $WORDPRESS_ADMIN_EMAIL \
                     --role=author --user_pass=$DB_PASSWORD \
-                    --path='/var/www/wordpress' >> /log.txt \
+                    --path='/var/www/html' >> /log.txt \
                     --allow-root
-
-    wp theme install blogvi --activate
 fi
 
 if [ ! -d /run/php ]; then
