@@ -5,14 +5,14 @@ volumes:
     name: wordpress
     driver: local
     driver_opts:
-      device: C:\Users\angel\anlima\wordpress
+      device: C:\Users\angel\anlima\data\wordpress
       o: bind
       type: none
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
-      device: C:\Users\angel\anlima\mariadb
+      device: C:\Users\angel\anlima\data\mariadb
       o: bind
       type: none
 
@@ -33,8 +33,6 @@ services:
     networks:
       - inception
     restart: unless-stopped
-    ports:
-      - '3306:3306'
   nginx:
     container_name: nginx
     build:
