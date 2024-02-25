@@ -9,6 +9,7 @@ RUN apt-get install -y wget php-fpm php-mysql mariadb-client curl unzip vsftpd
 
 COPY tools/auto-conf.sh /auto-conf.sh
 RUN sed -i 's/\r//' /auto-conf.sh
+RUN chmod +x /auto-conf.sh
 COPY tools/wp-config.php /wp-config.php
 COPY tools/php.conf /etc/php/7.4/fpm/pool.d/www.conf
 
