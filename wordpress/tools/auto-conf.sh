@@ -19,7 +19,7 @@ if [ ! -e /var/www/html/wp-config.php ]; then
                     --allow-root
 
     wp core install --title=$WORDPRESS_TITLE \
-                    --admin_user=$DB_USER \
+                    --admin_user=$WORDPRESS_ADMIN \
                     --admin_password=$DB_PASSWORD \
                     --admin_email=$WORDPRESS_ADMIN_EMAIL \
                     --url=$WORDPRESS_URL \
@@ -27,12 +27,6 @@ if [ ! -e /var/www/html/wp-config.php ]; then
 
     wp user create $DB_USER $USER_EMAIL \
                     --role=author --user_pass=$DB_PASSWORD \
-                    --path='/var/www/html' >> /log.txt \
-                    --allow-root
-    
-    wp user create $WORDPRESS_ADMIN $WORDPRESS_ADMIN_EMAIL \
-                    --role=administrator --user_pass=$DB_PASSWORD \
-                    --path='/var/www/html' >> /log.txt \
                     --allow-root
 
     wp theme install https://downloads.wordpress.org/theme/blogus.1.0.0.80.zip --activate --allow-root
