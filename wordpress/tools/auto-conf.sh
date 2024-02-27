@@ -2,8 +2,16 @@
 
 sleep 5
 
+if [ ! -d /run/php ]; then
+    mkdir /run/php
+fi
+
 if [ ! -e /var/www/html/wp-config.php ]; then
-   wp config create --dbhost=$DB_HOST \
+    wp cli update --yes --allow-root
+
+    wp core download --allow-root
+
+    wp config create --dbhost=$DB_HOST \
                     --dbname=$DB_NAME \
                     --dbuser=$DB_USER \
                     --dbpass=$DB_PASSWORD \
@@ -17,7 +25,7 @@ if [ ! -e /var/www/html/wp-config.php ]; then
                     --url=$WORDPRESS_URL \
                     --allow-root
 
-    wp user create $DB_USER $WORDPRESS_ADMIN_EMAIL \
+    wp user create $DB_USER $USER_EMAIL \
                     --role=author --user_pass=$DB_PASSWORD \
                     --path='/var/www/html' >> /log.txt \
                     --allow-root
@@ -27,13 +35,9 @@ if [ ! -e /var/www/html/wp-config.php ]; then
                     --path='/var/www/html' >> /log.txt \
                     --allow-root
 
-    wp plugin install https://downloads.wordpress.org/plugin/gutenberg.17.7.0.zip --activate --allow-root
+    wp theme install https://downloads.wordpress.org/theme/blogus.1.0.0.80.zip --activate --allow-root
+	wp theme status blogus --allow-root
 
-    wp theme activate twentytwentythree --allow-root
-fi
-
-if [ ! -d /run/php ]; then
-    mkdir /run/php
 fi
 
 /usr/sbin/php-fpm7.4 -F

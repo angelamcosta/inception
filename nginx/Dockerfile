@@ -8,10 +8,9 @@ RUN mkdir -p /etc/nginx/ssl/certs && \
     mkdir -p /etc/nginx/ssl/private && \
     mkdir -p /var/run/nginx
 
-RUN openssl req -newkey rsa:4096 -days 42 -nodes -x509 -out /etc/nginx/ssl/certs/anlima.crt -keyout /etc/nginx/ssl/private/anlima.key -subj "/C=PT/ST=Lisboa/L=Lisboa/O=42/OU=42Lisboa/CN=anlima.42.fr/UID=anlima"
+RUN openssl req -newkey rsa:4096 -days 42 -nodes -sha256 -x509 -out /etc/nginx/ssl/certs/anlima.crt -keyout /etc/nginx/ssl/private/anlima.key -subj "/C=PT/ST=Lisboa/L=Lisboa/O=42/OU=42Lisboa/CN=anlima.42.fr/UID=anlima"
 
-RUN rm -rf /etc/nginx/nginx.conf
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf /etc/nginx/conf.d
 
 RUN mkdir -p /run/nginx
 
