@@ -24,7 +24,7 @@ services:
   mariadb:
     container_name: mariadb
     build:
-      context: ./mariadb
+      context: ./srcs/mariadb
       dockerfile: Dockerfile
     env_file:
       - .env
@@ -33,10 +33,11 @@ services:
     networks:
       - inception
     restart: unless-stopped
+
   nginx:
     container_name: nginx
     build:
-      context: ./nginx
+      context: ./srcs/nginx
       dockerfile: Dockerfile
     volumes:
       - wordpress:/var/www/html
@@ -47,10 +48,11 @@ services:
     ports:
       - "443:443"
     restart: on-failure
+    
   wordpress:
     container_name: wordpress
     build:
-      context: ./wordpress
+      context: ./srcs/wordpress
       dockerfile: Dockerfile
     env_file:
       - .env
