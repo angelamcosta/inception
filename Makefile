@@ -1,6 +1,8 @@
 all:	build	up
 
 build:
+		mkdir /home/anlima/data/mariadb
+		mkdir /home/anlima/data/wordpress
 		docker compose build
 
 # to run the services, we use docker compose up
@@ -14,9 +16,11 @@ down:
 		docker compose down -v
 
 clean:	down
-		docker system prune -af;
+		rm -rf /home/anlima/data/mariadb
+		rm -rf /home/anlima/data/wordpress
 		docker rmi -f $(docker images -qa);
-		docker volume rm $(docker volume ls -q);
 		docker network rm $(docker network ls -q) 2>/dev/null
+		docker volume rm $(docker volume ls -q);
+		docker system prune -af;
 
 .PHONY: build up down clean
