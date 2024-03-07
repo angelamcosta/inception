@@ -18,9 +18,10 @@ down:
 clean:	down
 		rm -rf /home/anlima/data/mariadb
 		rm -rf /home/anlima/data/wordpress
-		docker rmi -f $(docker images -qa);
-		docker network rm $(docker network ls -q) 2>/dev/null
-		docker volume rm $(docker volume ls -q);
-		docker system prune -af;
+		@docker images -q > /dev/null 2>&1 && docker rmi -f $(docker images -qa) || true
+		@docker network ls -q > /dev/null 2>&1 && docker network rm $(docker network ls -q) || true
+		@docker volume ls -q > /dev/null 2>&1 && docker volume rm $(docker volume ls -q) || true
+		docker system prune -af
+
 
 .PHONY: build up down clean
