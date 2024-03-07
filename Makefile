@@ -1,8 +1,8 @@
 all:	build	up
 
 build:
-		mkdir /home/anlima/data/mariadb
-		mkdir /home/anlima/data/wordpress
+		mkdir -p /home/anlima/data/mariadb
+		mkdir -p /home/anlima/data/wordpress
 		docker compose build
 
 # to run the services, we use docker compose up
