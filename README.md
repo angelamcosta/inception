@@ -1,8 +1,7 @@
-# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Spouting%20Whale.png" alt="Spouting Whale" width="25" height="25" /> Inception (🚧 work in progress 🚧)
-
+# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Spouting%20Whale.png" alt="Spouting Whale" width="25" height="25" /> Inception
 <div align=center>
   
-  ![badge](https://raw.githubusercontent.com/angelamcosta/angelamcosta/main/42_badges/inceptionn.png)
+  ![badge](https://raw.githubusercontent.com/angelamcosta/angelamcosta/main/42_badges/inceptionm.png)
 </div>
 
 Inception is a a System Administration related exercise. This project involves setting up a small infrastructure composed of various services under specific rules. The entire project will be executed within a virtual machine, and I will be utilizing Docker Compose for the configuration. The subject of the project can be found [here](https://raw.githubusercontent.com/angelamcosta/inception/main/en.subject.pdf).
