@@ -3,9 +3,8 @@ FROM debian:bullseye
 WORKDIR /var/www/html
 
 RUN apt-get update -y && \
-    apt-get upgrade -y
-
-RUN apt-get install -y wget php-fpm php-mysql mariadb-client curl 
+    apt-get upgrade -y && \
+    apt-get install -y wget php-fpm php-mysql mariadb-client curl 
 
 COPY tools/auto-conf.sh /auto-conf.sh
 RUN sed -i 's/\r//' /auto-conf.sh
